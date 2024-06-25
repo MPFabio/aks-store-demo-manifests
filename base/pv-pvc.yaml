@@ -21,7 +21,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: azure-blob
+  storageClassName: managed
   resources:
     requests:
       storage: 10Gi
