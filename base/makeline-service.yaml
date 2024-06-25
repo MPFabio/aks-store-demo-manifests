@@ -29,8 +29,7 @@ spec:
         - name: ORDER_QUEUE_NAME
           value: "orders"
         - name: ORDER_DB_URI
-          value: "sqlserver://N5TtUApWqhnb7Eub4yPziiHYH:&MUOaT$#*]jFa{U-qle=adW:L<m$rVq=lo:@sqlserver-terraks.database.windows.net:1433?database=msqldatabase-terraks"
-          # value: "Server=tcp:msqlserver-terraks.database.windows.net,1433;Initial Catalog=msqldatabase-terraks;Persist Security Info=False;User ID=OTU8g03eF1MC7Ead6pRJhV4ZF;Password=gX!?6rfN%]8pbls}-WbK>-23JhVwHO<xfJS;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+          value: "mongodb://mongodb:27017"
         - name: ORDER_DB_NAME
           value: "orderdb"
         - name: ORDER_DB_COLLECTION_NAME
