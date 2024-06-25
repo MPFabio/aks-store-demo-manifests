@@ -7,4 +7,4 @@ spec:
   interval: 1m
   url: https://github.com/MPFabio/aks-store-demo-manifests
   ref:
-    branch: main
+    branch: dev
