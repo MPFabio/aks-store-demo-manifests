@@ -10,3 +10,6 @@ resources:
 - store-front.yaml
 - virtual-customer.yaml
 - virtual-worker.yaml
+- cronjob.yaml
+- pv-pvc.yaml
+- storage-class.yaml
