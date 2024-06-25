@@ -11,14 +11,14 @@ spec:
           containers:
           - name: backup
             image: mcr.microsoft.com/mirror/docker/library/mongo:4.2
-            command: ["/bin/bash", "-c", "mongodump --host $MONGO_HOST --port $MONGO_PORT --db $MONGO_DB --out /mnt/backup/$(date +\\%F-\\%T)"]
+            command: ["/bin/bash", "-c", "mongodump --host $MONGO_HOST --port $MONGO_PORT --out /mnt/backup/$(date +%F-%T)"]
             env:
               - name: MONGO_HOST
                 value: "mongodb"
               - name: MONGO_PORT
                 value: "27017"
-              - name: MONGO_DB
-                value: "my-database"
+              # - name: MONGO_DB
+              #   value: "my-database"
             volumeMounts:
             - name: azure-blob-storage
               mountPath: /mnt/backup
