@@ -11,7 +11,7 @@ spec:
   storageClassName: azure-blob
   azureFile:
     secretName: azure-secret
-    shareName: <your-file-share-name>
+    shareName: azure-blob-pvc
     readOnly: false
 ---
 apiVersion: v1
