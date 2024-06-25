@@ -1,9 +1,9 @@
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: mongodb-backup
 spec:
-  schedule: "*/10 * * * *"  # Execute every 10 minutes
+  schedule: "*/10 * * * *" # Execute every 10 minutes
   jobTemplate:
     spec:
       template:
@@ -13,12 +13,12 @@ spec:
             image: mcr.microsoft.com/mirror/docker/library/mongo:4.2
             command: ["/bin/bash", "-c", "/path/to/backup_script.sh"]
             env:
-            - name: MONGO_HOST
-              value: "your-mongodb-service"
-            - name: MONGO_PORT
-              value: "27017"
-            - name: MONGO_DB
-              value: "your-database"
+              - name: MONGO_HOST
+                value: "mongodb"
+              - name: MONGO_PORT
+                value: "27017"
+              - name: MONGO_DB
+                value: "my-database"
             volumeMounts:
             - name: azure-blob-storage
               mountPath: /mnt/backup

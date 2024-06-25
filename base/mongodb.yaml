@@ -41,13 +41,20 @@ spec:
               mountPath: /data/db
             - name: mongodb-logs
               mountPath: /var/log/mongodb
-      volumes:
-        - name: mongodb-storage
-          persistentVolumeClaim:
-            claimName: mongodb-pvc
-        - name: mongodb-logs
-          persistentVolumeClaim:
-            claimName: mongodb-pvc
+          env:
+            - name: MONGO_HOST
+              value: "mongodb"
+            - name: MONGO_PORT
+              value: "27017"
+            - name: MONGO_DB
+              value: "my-database"
+  volumes:
+    - name: mongodb-storage
+      persistentVolumeClaim:
+        claimName: mongodb-pvc
+    - name: mongodb-logs
+      persistentVolumeClaim:
+        claimName: mongodb-pvc
 ---
 apiVersion: v1
 kind: Service
