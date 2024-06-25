@@ -11,7 +11,7 @@ spec:
           containers:
           - name: backup
             image: mcr.microsoft.com/mirror/docker/library/mongo:4.2
-            command: ["/bin/bash", "-c", "/path/to/backup_script.sh"]
+            command: ["/bin/bash", "-c", "mongodump --host $MONGO_HOST --port $MONGO_PORT --db $MONGO_DB --out /mnt/backup/$(date +\\%F-\\%T)"]
             env:
               - name: MONGO_HOST
                 value: "mongodb"
