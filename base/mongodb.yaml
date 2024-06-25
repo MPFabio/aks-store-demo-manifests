@@ -16,26 +16,38 @@ spec:
       nodeSelector:
         "kubernetes.io/os": linux
       containers:
-      - name: mongodb
-        image: mcr.microsoft.com/mirror/docker/library/mongo:4.2
-        ports:
-        - containerPort: 27017
-          name: mongodb
-        resources:
-          requests:
-            cpu: 5m
-            memory: 75Mi
-          limits:
-            cpu: 25m
-            memory: 1024Mi
-        livenessProbe:
-          exec:
-            command:
-            - mongosh
-            - --eval
-            - db.runCommand('ping').ok
-          initialDelaySeconds: 5
-          periodSeconds: 5
+        - name: mongodb
+          image: mcr.microsoft.com/mirror/docker/library/mongo:4.2
+          ports:
+            - containerPort: 27017
+              name: mongodb
+          resources:
+            requests:
+              cpu: 5m
+              memory: 75Mi
+            limits:
+              cpu: 25m
+              memory: 1024Mi
+          livenessProbe:
+            exec:
+              command:
+                - mongosh
+                - --eval
+                - db.runCommand('ping').ok
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          volumeMounts:
+            - name: mongodb-storage
+              mountPath: /data/db
+            - name: mongodb-logs
+              mountPath: /var/log/mongodb
+      volumes:
+        - name: mongodb-storage
+          persistentVolumeClaim:
+            claimName: mongodb-pvc
+        - name: mongodb-logs
+          persistentVolumeClaim:
+            claimName: mongodb-pvc
 ---
 apiVersion: v1
 kind: Service
@@ -43,7 +55,7 @@ metadata:
   name: mongodb
 spec:
   ports:
-  - port: 27017
+    - port: 27017
   selector:
     app: mongodb
-  type: ClusterIP 
+  type: ClusterIP
