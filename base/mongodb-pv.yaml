@@ -9,7 +9,7 @@ spec:
     - ReadWriteOnce
   azureDisk:
     diskName: mongodb-disk
-    diskURI: <disk-uri>
+    diskURI: https://$AZURE_STORAGE_ACCOUNT.blob.core.windows.net/$AZURE_CONTAINER/$BACKUP_NAME
   storageClassName: azure-disk
 ---
 apiVersion: v1
