@@ -13,3 +13,5 @@ resources:
 - cronjob.yaml
 - pv-pvc.yaml
 - storage-class.yaml
+- configmap.yaml
+- persistent-volume.yaml
