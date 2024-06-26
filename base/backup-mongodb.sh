@@ -7,8 +7,8 @@ MONGO_DB="my-database"
 BACKUP_DIR="/backup"
 TIMESTAMP=$(date +%F-%H%M)
 BACKUP_NAME="mongodb-backup-$TIMESTAMP.gz"
-AZURE_STORAGE_ACCOUNT= $azurestorageaccountname
-AZURE_CONTAINER= $containername
+AZURE_STORAGE_ACCOUNT=$azurestorageaccountname
+AZURE_CONTAINER=$containername
 AZCOPY_PATH="/usr/local/bin/azcopy"
 
 # Create backup directory if not exists

@@ -11,6 +11,5 @@ resources:
 - virtual-customer.yaml
 - virtual-worker.yaml
 - mongodb-pv.yaml
-- backup-mongodb.sh
 - cronjob.yaml
 - configmap.yaml
