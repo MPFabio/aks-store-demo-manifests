@@ -1,34 +1,19 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: backup-script
+  name: backup-script-config
 data:
-  backup-mongodb.sh: |
+  backup.sh: |
     #!/bin/bash
-
-    # Variables
-    MONGO_HOST="mongodb"
-    MONGO_PORT="27017"
-    MONGO_DB="my-database"
-    BACKUP_DIR="/backup"
     TIMESTAMP=$(date +%F-%H%M)
-    BACKUP_NAME="mongodb-backup-$TIMESTAMP.gz"
-    AZURE_STORAGE_ACCOUNT=$azurestorageaccountname
-    AZURE_CONTAINER=$containername
-    AZCOPY_PATH="/usr/local/bin/azcopy"
-
-    # Create backup directory if not exists
+    BACKUP_DIR=/data/db/backup-$TIMESTAMP
     mkdir -p $BACKUP_DIR
-
-    # Dump MongoDB database
-    mongodump --host $MONGO_HOST --port $MONGO_PORT --db $MONGO_DB --out $BACKUP_DIR/$TIMESTAMP
-
-    # Compress the backup
-    tar -czvf $BACKUP_DIR/$BACKUP_NAME -C $BACKUP_DIR $TIMESTAMP
+    mongodump --out $BACKUP_DIR
 
     # Upload to Azure Storage
-    $AZCOPY_PATH copy "$BACKUP_DIR/$BACKUP_NAME" "https://$AZURE_STORAGE_ACCOUNT.blob.core.windows.net/$AZURE_CONTAINER/$BACKUP_NAME"
+    AZURE_STORAGE_ACCOUNT=$azurestorageaccountname
+    AZURE_STORAGE_KEY=$azurestorageaccountkey
+    AZURE_CONTAINER=$containername
 
-    # Clean up
-    rm -rf $BACKUP_DIR/$TIMESTAMP
-    rm $BACKUP_DIR/$BACKUP_NAME
+
+    az storage blob upload-batch -d $AZURE_CONTAINER -s $BACKUP_DIR --account-name $AZURE_STORAGE_ACCOUNT --account-key $AZURE_STORAGE_KEY

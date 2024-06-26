@@ -3,26 +3,26 @@ kind: CronJob
 metadata:
   name: mongodb-backup
 spec:
-  schedule: "10 * * * *" # Runs every 10 min
+  schedule: "10 * * * *"  # Runs every 10 min
   jobTemplate:
     spec:
       template:
         spec:
           containers:
-            - name: mongodb-backup
-              image: appropriate/curl
-              command: ["/bin/sh", "-c"]
-              args: ["/scripts/backup-mongodb.sh"]
+            - name: backup
+              image: mcr.microsoft.com/azure-cli
+              command: ["/bin/bash", "-c"]
+              args: ["./backup.sh"]
               volumeMounts:
+                - name: mongodb-storage
+                  mountPath: /data/db
                 - name: backup-script
-                  mountPath: /scripts
-              env:
-                - name: AZURE_STORAGE_ACCOUNT
-                  value: $azurestorageaccountname
-                - name: AZURE_CONTAINER
-                  value: $containername
+                  mountPath: /backup
           restartPolicy: OnFailure
           volumes:
+            - name: mongodb-storage
+              persistentVolumeClaim:
+                claimName: mongodb-pvc
             - name: backup-script
               configMap:
-                name: backup-script
+                name: backup-script-config
