@@ -1,34 +1,28 @@
-apiVersion: batch/v1
+apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
   name: mongodb-backup
 spec:
-  schedule: "*/10 * * * *"
+  schedule: "10 * * * *" # Runs every 10 min
   jobTemplate:
     spec:
       template:
         spec:
           containers:
-          - name: backup
-            image: mcr.microsoft.com/mirror/docker/library/mongo:4.2
-            command: ["/bin/bash", "-c", "/mnt/scripts/backup-script.sh"]
-            env:
-            - name: MONGO_HOST
-              value: "mongodb"
-            - name: MONGO_PORT
-              value: "27017"
-            volumeMounts:
-            - name: azure-blob-storage
-              mountPath: /mnt/backup
-            - name: script-volume
-              mountPath: /mnt/scripts
-              subPath: backup-script.sh
+            - name: mongodb-backup
+              image: appropriate/curl
+              command: ["/bin/sh", "-c"]
+              args: ["/scripts/backup-mongodb.sh"]
+              volumeMounts:
+                - name: backup-script
+                  mountPath: /scripts
+              env:
+                - name: AZURE_STORAGE_ACCOUNT
+                  value: $azurestorageaccountname
+                - name: AZURE_CONTAINER
+                  value: $containername
           restartPolicy: OnFailure
           volumes:
-          - name: azure-blob-storage
-            persistentVolumeClaim:
-              claimName: mongodb-pvc
-          - name: script-volume
-            configMap:
-              name: backup-script
-              defaultMode: 0755
+            - name: backup-script
+              configMap:
+                name: backup-script

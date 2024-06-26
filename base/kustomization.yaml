@@ -10,8 +10,7 @@ resources:
 - store-front.yaml
 - virtual-customer.yaml
 - virtual-worker.yaml
+- mongodb-pv.yaml
+- backup-mongodb.sh
 - cronjob.yaml
-- pv-pvc.yaml
-- storage-class.yaml
 - configmap.yaml
-- persistent-volume.yaml
