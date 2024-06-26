@@ -18,6 +18,22 @@ spec:
                   mountPath: /data/db
                 - name: backup-script
                   mountPath: /backup
+              env:
+                - name: AZURE_STORAGE_ACCOUNT
+                  valueFrom:
+                    secretKeyRef:
+                      name: azurestorageaccountname
+                      key: azurestorageaccountname
+                - name: AZURE_STORAGE_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: azurestorageaccountkey
+                      key: azurestorageaccountkey
+                - name: AZURE_CONTAINER
+                  valueFrom:
+                    secretKeyRef:
+                      name: containername
+                      key: containername
           restartPolicy: OnFailure
           volumes:
             - name: mongodb-storage
