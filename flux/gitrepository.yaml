@@ -4,7 +4,7 @@ metadata:
   name: my-repo
   namespace: flux-system
 spec:
-  interval: 1m
+  interval: 5m
   url: https://github.com/MPFabio/aks-store-demo-manifests
   ref:
     branch: main

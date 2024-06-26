@@ -7,8 +7,6 @@ MONGO_DB="my-database"
 BACKUP_DIR="/backup"
 TIMESTAMP=$(date +%F-%H%M)
 BACKUP_NAME="mongodb-backup-$TIMESTAMP.gz"
-AZURE_STORAGE_ACCOUNT=$azurestorageaccountname
-AZURE_CONTAINER=$containername
 AZCOPY_PATH="/usr/local/bin/azcopy"
 
 # Create backup directory if not exists
@@ -21,7 +19,7 @@ mongodump --host $MONGO_HOST --port $MONGO_PORT --db $MONGO_DB --out $BACKUP_DIR
 tar -czvf $BACKUP_DIR/$BACKUP_NAME -C $BACKUP_DIR $TIMESTAMP
 
 # Upload to Azure Storage
-$AZCOPY_PATH copy "$BACKUP_DIR/$BACKUP_NAME" "https://$AZURE_STORAGE_ACCOUNT.blob.core.windows.net/$AZURE_CONTAINER/$BACKUP_NAME"
+$AZCOPY_PATH copy "$BACKUP_DIR/$BACKUP_NAME" "https://$azurestorageaccountname.blob.core.windows.net/$containername/$BACKUP_NAME"
 
 # Clean up
 rm -rf $BACKUP_DIR/$TIMESTAMP

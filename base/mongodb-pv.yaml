@@ -36,5 +36,6 @@ spec:
     - ReadWriteOnce
   azureDisk:
     diskName: mongodb-disk
-    diskURI: "https://$AZURE_STORAGE_ACCOUNT.blob.core.windows.net/$AZURE_CONTAINER/$BACKUP_NAME"
+    diskURI: "https://$azurestorageaccountname.blob.core.windows.net/$containername/mongodb-disk.vhd"
     kind: Managed
+    fsType: ext4
