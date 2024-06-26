@@ -13,3 +13,4 @@ resources:
 - mongodb-pv.yaml
 - cronjob.yaml
 - configmap.yaml
+- pvc.yaml
