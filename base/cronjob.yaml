@@ -12,7 +12,7 @@ spec:
             - name: backup
               image: mcr.microsoft.com/azure-cli
               command: ["/bin/bash", "-c"]
-              args: ["./backup.sh"]
+              args: ["chmod +x /backup/backup.sh && /backup/backup.sh"]
               volumeMounts:
                 - name: mongodb-storage
                   mountPath: /data/db
