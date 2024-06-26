@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: mongodb-backup
 spec:
-  schedule: "*/10 * * * *" # Execute every 10 minutes
+  schedule: "*/10 * * * *"
   jobTemplate:
     spec:
       template:
@@ -11,19 +11,24 @@ spec:
           containers:
           - name: backup
             image: mcr.microsoft.com/mirror/docker/library/mongo:4.2
-            command: ["/bin/bash", "-c", "mongodump --host $MONGO_HOST --port $MONGO_PORT --out /mnt/backup/$(date +%F-%T)"]
+            command: ["/bin/bash", "-c", "/mnt/scripts/backup-script.sh"]
             env:
-              - name: MONGO_HOST
-                value: "mongodb"
-              - name: MONGO_PORT
-                value: "27017"
-              # - name: MONGO_DB
-              #   value: "my-database"
+            - name: MONGO_HOST
+              value: "mongodb"
+            - name: MONGO_PORT
+              value: "27017"
             volumeMounts:
             - name: azure-blob-storage
               mountPath: /mnt/backup
+            - name: script-volume
+              mountPath: /mnt/scripts
+              subPath: backup-script.sh
           restartPolicy: OnFailure
           volumes:
           - name: azure-blob-storage
             persistentVolumeClaim:
               claimName: mongodb-pvc
+          - name: script-volume
+            configMap:
+              name: backup-script
+              defaultMode: 0755
