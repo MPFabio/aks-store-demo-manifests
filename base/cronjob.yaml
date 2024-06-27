@@ -10,7 +10,7 @@ spec:
         spec:
           containers:
             - name: backup
-              image: mcr.microsoft.com/azure-dev-cli-apps:latest
+              image: mcr.microsoft.com/azure-cli:latest
               command: ["/bin/bash", "-c"]
               args: ["chmod +x /backup/backup.sh && /backup/backup.sh"]
               volumeMounts:
