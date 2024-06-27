@@ -10,7 +10,7 @@ resources:
 - store-front.yaml
 - virtual-customer.yaml
 - virtual-worker.yaml
-- mongodb-pv.yaml
-- cronjob.yaml
-- configmap.yaml
-- pvc.yaml
+# - mongodb-pv.yaml
+# - cronjob.yaml
+# - configmap.yaml
+# - pvc.yaml
